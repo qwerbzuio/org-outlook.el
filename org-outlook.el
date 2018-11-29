@@ -339,6 +339,27 @@ CanMove:
             objWeb.Visible = True
         Next
     End If
+End Sub
+
+'Adds a link to the currently selected message to the clipboard
+Sub AddLinkToMessageInClipboard()
+ 
+   Dim objMail As Outlook.MailItem
+   Dim doClipboard As Object 'New MSForms.DataObject
+
+   'One and ONLY one message muse be selected
+   If Application.ActiveExplorer.Selection.Count <> 1 Then
+       MsgBox (\"Select one and ONLY one message.\")
+       Exit Sub
+   End If
+
+   Set objMail = Application.ActiveExplorer.Selection.Item(1)
+
+   ' https://answers.microsoft.com/en-us/msoffice/forum/msoffice_access-mso_win10-mso_2010/vba-to-clear-clipboard/445a196f-6feb-4336-9600-5583842e3209
+   Set doClipboard = CreateObject(\"New:{1C3B4210-F441-11CE-B9EA-00AA006B1A69}\")
+   doClipboard.SetText \"[[outlook:\" + objMail.EntryID + \"][Message from \" + objMail.SenderName + \": \" + objMail.Subject + \"]]\"
+   doClipboard.PutInClipboard
+ 
 End Sub")))
     (with-temp-file (expand-file-name "org-protocol.vbs" org-outlook-dir)
       (insert script))
