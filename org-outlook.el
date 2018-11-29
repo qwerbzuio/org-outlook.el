@@ -503,7 +503,7 @@ The messages will be deleted are specified in `org-protocol-delete-msgs-states'.
 
 (defun org-protocol-delete-msgs-on-task-done ()
   "Delete messages in task when the task has been completed."
-  (when (and org-protocol-delete-msgs-on-task-done (string-match-p (regexp-opt org-protocol-delete-msgs-states) org-state))
+  (when (and org-protocol-delete-msgs-on-task-done org-state (string-match-p (regexp-opt org-protocol-delete-msgs-states) org-state))
     (save-restriction
       (save-excursion
         (catch 'dont-delete
